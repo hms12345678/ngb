@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مصنع NGB للشنط | توريد جملة</title>
+    <!-- استدعاء Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- استدعاء خط Cairo الشيك -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent; /* إخفاء الوميض الأزرق عند الضغط في الموبايل */
+        }
+        .transition-all-custom {
+            transition: all 0.3s ease-in-out;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-[#FDFDFD] text-[#1E1E1E] dark:bg-[#121212] dark:text-[#E0E0E0] transition-colors duration-300">
+
+    <!-- ================= هاتف الواتساب الموحد للمبيعات ================= -->
+    <script>
+        const WHATSAPP_NUMBER = "201105667159"; 
+    </script>
+
+    <!-- ================= الهيدر (Header) ================= -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-40 transition-all-custom bg-[#FDFDFD] dark:bg-[#121212] h-20 md:h-28 border-b border-transparent dark:border-gray-800 shadow-sm md:shadow-none">
+        <div class="max-w-7xl mx-auto h-full px-4 md:px-6 flex items-center justify-between relative">
+            
+            <!-- زر القائمة الجانبية للموبايل -->
+            <button onclick="toggleMobileMenu()" class="block md:hidden text-gray-800 dark:text-white p-2 focus:outline-none" aria-label="Open Menu">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            <!-- القائمة العادية للشاشات الكبيرة -->
+            <nav class="hidden md:flex items-center gap-8 font-semibold text-lg">
+                <a href="#home" class="hover:text-[#B38F4F] transition-colors">الرئيسية</a>
+                <a href="#catalog" class="hover:text-[#B38F4F] transition-colors">كتالوج الجملة</a>
+            </nav>
+
+            <!-- اللوجو المتجاوب ممركز في المنتصف على الموبايل وعلى اليمين/الوسط في الـ desktop -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 md:top-2 z-10 top-1/2 -translate-y-1/2 md:translate-y-0">
+                <a href="#home" class="block">
+                    <img id="logo" src="logo.png" alt="NGB Bag Factory Logo" class="transition-all-custom object-contain h-14 w-14 md:h-28 md:w-28">
+                </a>
+            </div>
+
+            <!-- زر التواصل السريع -->
+            <div class="flex items-center gap-2">
+                <button onclick="openQuickContact()" class="flex items-center gap-1.5 bg-[#B38F4F] hover:bg-[#A67C3D] text-white px-3 py-2 md:px-5 md:py-2.5 rounded-lg font-bold transition-all shadow-md text-xs md:text-base">
+                    <span class="hidden sm:inline">تواصل سريع</span>
+                    <span class="sm:hidden">تواصل</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية المنسدلة للموبايل -->
+    <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-white dark:bg-[#1E1E1E] z-50 transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl md:hidden">
+        <div class="p-6 flex flex-col h-full">
+            <div class="flex items-center justify-between pb-6 border-b border-gray-100 dark:border-gray-800">
+                <span class="font-black text-lg text-[#B38F4F]">قائمة المصنع</span>
+                <button onclick="toggleMobileMenu()" class="text-gray-500 dark:text-gray-400 p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <nav class="flex flex-col gap-6 pt-8 font-bold text-lg">
+                <a href="#home" onclick="toggleMobileMenu()" class="hover:text-[#B38F4F] transition-colors text-gray-800 dark:text-gray-200">الرئيسية</a>
+                <a href="#catalog" onclick="toggleMobileMenu()" class="hover:text-[#B38F4F] transition-colors text-gray-800 dark:text-gray-200">كتالوج الجملة</a>
+            </nav>
+        </div>
+    </div>
+    <!-- خلفية داكنة عند فتح القائمة الجانبية -->
+    <div id="mobile-menu-overlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
+
+
+    <!-- ================= قسم الهيرو (Hero Section) ================= -->
+    <section id="home" class="pt-32 pb-16 md:pt-40 md:pb-20 min-h-[50vh] md:min-h-[60vh] flex items-center justify-center px-4 md:px-6">
+        <div class="max-w-5xl mx-auto text-center">
+            <span class="inline-block bg-[#B38F4F]/10 text-[#B38F4F] px-3 py-1 md:px-4 md:py-1.5 rounded-full text-xs md:text-sm font-bold tracking-wide mb-4 md:mb-6">
+                NGB Bag Factory • صُنِع في مصر
+            </span>
+            <h1 class="text-2xl md:text-6xl font-black text-[#1E1E1E] dark:text-white leading-tight mb-4 md:mb-6">
+                خطوط إنتاج متكاملة لتوريد <br>
+                <span class="text-[#B38F4F]">شنط الجملة</span> بأعلى جودة
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400 text-sm md:text-xl max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed px-2">
+                نحن في مصنع NGB نلبي احتياجات التجار والموزعين. اضغط على الموديل، تصفح الصور، واستفسر عن أسعار الجملة مباشرة بكود الشنطة.
+            </p>
+            <div class="w-full px-4 sm:px-0">
+                <a href="#catalog" class="block sm:inline-block w-full sm:w-auto bg-[#1E1E1E] hover:bg-[#2c2c2c] dark:bg-[#B38F4F] dark:hover:bg-[#A67C3D] text-white px-8 py-3.5 md:py-4 rounded-xl font-bold transition-all text-base md:text-lg shadow-lg text-center">
+                    تصفح كتالوج الموديلات
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= قسم كتالوج المنتجات ================= -->
+    <section id="catalog" class="py-12 md:py-20 bg-[#F9F9F6] dark:bg-[#1A1A1A] transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="text-2xl md:text-4xl font-black text-[#1E1E1E] dark:text-white mb-2 md:mb-4">كتالوج منتجات الجملة</h2>
+                <p class="text-xs md:text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto">كل موديل يحمل كوداً خاصاً لتسهيل عملية الاستفسار والطلب الفوري</p>
+            </div>
+
+            <!-- أزرار الأقسام (تعديل: تمرير أفقي سلس للموبايل) -->
+            <div class="w-full overflow-x-auto no-scrollbar mb-8 md:mb-12 -mx-4 px-4 md:mx-0 md:px-0 flex justify-start md:justify-center">
+                <div class="flex gap-2 pb-2 whitespace-nowrap">
+                    <button onclick="filterProducts('all')" id="btn-all" class="category-btn px-5 py-2 rounded-full font-bold text-xs md:text-base border transition-all">كل الشنط</button>
+                    <button onclick="filterProducts('school')" id="btn-school" class="category-btn px-5 py-2 rounded-full font-bold text-xs md:text-base border transition-all">مدرسة</button>
+                    <button onclick="filterProducts('laptop')" id="btn-laptop" class="category-btn px-5 py-2 rounded-full font-bold text-xs md:text-base border transition-all">لاب توب</button>
+                    <button onclick="filterProducts('travel')" id="btn-travel" class="category-btn px-5 py-2 rounded-full font-bold text-xs md:text-base border transition-all">رحالة</button>
+                    <button onclick="filterProducts('handbag')" id="btn-handbag" class="category-btn px-5 py-2 rounded-full font-bold text-xs md:text-base border transition-all">هاندباج</button>
+                    <button onclick="filterProducts('cross')" id="btn-cross" class="category-btn px-5 py-2 rounded-full font-bold text-xs md:text-base border transition-all">كروس</button>
+                </div>
+            </div>
+
+            <!-- شبكة المنتجات متجاوبة وممتازة للموبايل كارتين في الصف -->
+            <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+                <!-- الـ JavaScript هيفرش الكروت هنا -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= نافذة تفاصيل الشنطة المنبثقة المتجاوبة بالكامل ================= -->
+    <div id="product-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-end md:items-center justify-center p-0 md:p-4 backdrop-blur-sm">
+        <div class="bg-white dark:bg-[#1E1E1E] rounded-t-3xl md:rounded-3xl max-w-4xl w-full h-[85vh] md:h-auto max-h-[90vh] overflow-y-auto no-scrollbar relative shadow-2xl flex flex-col md:flex-row">
+            
+            <!-- زرار الإغلاق - مناسب للموبايل ومكبر اللمس -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 bg-white/90 hover:bg-white dark:bg-[#2d2d2d] dark:text-white text-gray-800 p-2.5 rounded-full shadow-md z-10 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- الجزء الأيمن: معرض الصور -->
+            <div class="w-full md:w-1/2 p-4 md:p-6 bg-gray-50 dark:bg-[#242424] flex flex-col justify-between relative group/gallery flex-shrink-0">
+                <div class="w-full aspect-square rounded-2xl overflow-hidden bg-gray-100 dark:bg-[#1a1a1a] shadow-sm mb-3 md:mb-4 relative">
+                    <img id="modal-main-img" src="" alt="" class="w-full h-full object-contain p-2">
+                    
+                    <!-- سهم اليمين (مكبر للموبايل) -->
+                    <button onclick="prevImage()" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white p-3 rounded-full transition-all shadow-md focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    
+                    <!-- سهم الشمال (مكبر للموبايل) -->
+                    <button onclick="nextImage()" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white p-3 rounded-full transition-all shadow-md focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- شريط الصور المصغرة باللمس والتمرير السلس -->
+                <div id="modal-thumbnails" class="flex gap-2 overflow-x-auto pb-1 no-scrollbar scroll-smooth"></div>
+            </div>
+
+            <!-- الجزء الأيسر: تفاصيل الشنطة والطلب -->
+            <div class="w-full md:w-1/2 p-5 md:p-8 flex flex-col justify-between flex-grow">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span id="modal-tag" class="inline-block bg-[#B38F4F]/10 text-[#B38F4F] px-2.5 py-0.5 rounded-full text-xs font-bold"></span>
+                        
+                        <!-- كود المنتج -->
+                        <div class="flex items-center gap-1">
+                            <span id="modal-code" class="text-xs font-mono font-bold bg-gray-100 text-gray-600 dark:bg-[#2d2d2d] dark:text-gray-300 px-2.5 py-1 rounded-md"></span>
+                            <button onclick="copyProductCode()" class="bg-gray-100 hover:bg-gray-200 dark:bg-[#2d2d2d] dark:hover:bg-[#3d3d3d] p-1.5 rounded-md transition-all relative group" title="نسخ الكود">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                </svg>
+                                <span id="copy-toast" class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-black text-white text-[10px] py-1 px-2 rounded opacity-0 transition-opacity pointer-events-none whitespace-nowrap">تم النسخ!</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <h3 id="modal-title" class="text-xl md:text-2xl font-black text-[#1E1E1E] dark:text-white mb-2"></h3>
+                    <p id="modal-desc" class="text-gray-600 dark:text-gray-400 text-xs md:text-base leading-relaxed mb-4 md:mb-6 border-b border-gray-100 dark:border-gray-800 pb-3 md:pb-4"></p>
+                    
+                    <div class="mb-4 md:mb-6 bg-gray-50 dark:bg-[#242424] p-3 md:p-4 rounded-2xl border border-gray-100 dark:border-gray-800">
+                        <p class="text-xs md:text-sm font-semibold text-[#1E1E1E] dark:text-white mb-1">📋 ملحوظة لتجار الجملة:</p>
+                        <p class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400 leading-relaxed">الأسعار تعتمد على حجم الطلبية والكميات المطلوبة. أقل كمية لبدء تصنيع وتوريد الموديل هي 3 دُست.</p>
+                    </div>
+                </div>
+
+                <div class="pb-4 md:pb-0">
+                    <button id="modal-whatsapp-btn" class="w-full py-3.5 md:py-4 bg-[#1E1E1E] hover:bg-[#B38F4F] dark:bg-[#B38F4F] dark:hover:bg-[#A67C3D] text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2 md:gap-3 shadow-md">
+                        <span class="text-sm md:text-base">استفسر عن السعر عبر الواتساب</span>
+                        <svg xmlns="http://www.w3.org/2000/xl" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= الجزء الذكي (JavaScript) ================= -->
+    <script>
+        const products = [
+            { 
+                id: 1, 
+                code: "NGB-SCH-01", 
+                name: "شنطة مدرسة هيرو متينة", 
+                category: "school", 
+                tagName: "مدرسة",
+                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600", 
+                desc: "شنطة مدرسة مصممة خصيصاً للأوزان الثقيلة، قماش كوردورا المعالج ضد الماء، سحابات مستوردة شديدة التحمل مع 3 جيوب رئيسية واسعة وجيوب جانبية لزجاجات المياه وطبقة حماية مبطنة لظهر الطالب.",
+                images: [
+                    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600",
+                    "https://images.unsplash.com/photo-1577733966973-d680bffd2e80?w=600",
+                    "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600"
+                ]
+            },
+            { 
+                id: 2, 
+                code: "NGB-LAP-01", 
+                name: "شنطة لاب توب بيزنس برو", 
+                category: "laptop", 
+                tagName: "لاب توب",
+                image: "cat lux1.jpg", 
+                desc: "شنطة لاب توب فخمة لرجال الأعمال والمهندسين. تحتوي على جيب حماية مبطن بتقنية Anti-Shock لحماية الأجهزة حتى مقاس 15.6 بوصة، منفذ USB مدمج للشحن الخارجي، وخامات أكسفورد واتربروف فاخرة.",
+                images: [
+                    "cat lux1.jpg",
+                    "cat lux2.jpg",
+                    "cat lux3.jpg",
+                    "cat lux4.jpg",
+                    "cat lux5.jpg",
+                    "cat lux6.jpg",
+                    "cat lux7.jpg",
+                    "cat lux8.jpg",
+                    "cat lux9.jpg",
+                    "cat lux10.jpg",
+                    "cat lux11.jpg",
+                    "cat lux12.jpg",
+                    "cat lux13.jpg"
+                ]
+            },
+            { 
+                id: 3, 
+                code: "NGB-TRV-09", 
+                name: "شنطة رحالة هجـوم 50 لتر", 
+                category: "travel", 
+                tagName: "رحالة",
+                image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=600", 
+                desc: "شنطة رحلات وسفر ضخمة سعة 50 لتر. أحزمة عريضة للكتف والخصر لتوزيع الوزن بشكل مثالي، دعامات ظهر مبطنة للتنفس، قماش بوليستر عالي الكثافة مقاوم للتمزق، ممتازة للتخييم والسفر الطويل.",
+                images: [
+                    "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=600",
+                    "https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=600"
+                ]
+            }
+        ];
+
+        const grid = document.getElementById('products-grid');
+        let activeProduct = null;
+        let currentImageIndex = 0;
+        let currentCategory = 'all'; 
+
+        // التحكم في المنيو الجانبية للموبايل
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('mobile-menu-overlay');
+            if (menu.classList.contains('translate-x-full')) {
+                menu.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            } else {
+                menu.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+
+        function handleSystemTheme(e) {
+            const isDark = e ? e.matches : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            if(typeof currentCategory !== 'undefined') {
+                filterProducts(currentCategory);
+            }
+        }
+
+        handleSystemTheme();
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handleSystemTheme);
+
+        function copyProductCode() {
+            if (!activeProduct) return;
+            navigator.clipboard.writeText(activeProduct.code).then(() => {
+                const toast = document.getElementById('copy-toast');
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                }, 2000);
+            });
+        }
+
+        function sendWhatsAppProduct(name, code) {
+            const baseText = `أهلاً مصنع NGB، حابب أستفسر عن أسعار جملة وتفاصيل تصنيع الشنطة التالية:\n📌 الاسم: ${name}\n🔢 كود المنتج: ${code}`;
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(baseText)}`;
+            window.open(url, '_blank');
+        }
+
+        function openQuickContact() {
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('أهلاً مصنع NGB، حابب أستفسر عن خطوط الإنتاج والطلبيات المتاحة.')}`;
+            window.open(url, '_blank');
+        }
+
+        function displayProducts(productsList) {
+            grid.innerHTML = "";
+            if(productsList.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center text-gray-400 dark:text-gray-500 py-12 text-sm">قريباً.. جاري رفع موديلات هذا القسم</p>`;
+                return;
+            }
+            
+            productsList.forEach(product => {
+                const card = `
+                    <div class="bg-white dark:bg-[#1E1E1E] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-gray-800 flex flex-col justify-between group relative">
+                        <div onclick="openModal(${product.id})" class="relative bg-gray-50 dark:bg-[#242424] pt-[100%] overflow-hidden cursor-pointer">
+                            <img src="${product.image}" alt="${product.name}" class="absolute inset-0 w-full h-full object-contain p-2 md:p-3 group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute bottom-1.5 right-1.5 bg-black/70 text-white text-[9px] md:text-[10px] font-mono px-1.5 py-0.5 rounded font-bold">${product.code}</span>
+                            <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hidden md:flex">
+                                <span class="bg-white/90 dark:bg-[#2d2d2d] dark:text-white text-xs font-bold px-3 py-1.5 rounded-lg text-gray-800 shadow-sm">معاينة الصور</span>
+                            </div>
+                        </div>
+                        <div class="p-3 md:p-4 flex-grow flex flex-col justify-between">
+                            <div onclick="openModal(${product.id})" class="cursor-pointer">
+                                <h3 class="font-bold text-xs md:text-base text-[#1E1E1E] dark:text-white group-hover:text-[#B38F4F] transition-colors mb-0.5 line-clamp-1">${product.name}</h3>
+                                <p class="text-[10px] md:text-[11px] text-gray-400 dark:text-gray-500 mb-2 md:mb-3">اضغط للتصفح والتفاصيل</p>
+                            </div>
+                            <button onclick="sendWhatsAppProduct('${product.name}', '${product.code}')" class="w-full py-2 bg-[#1E1E1E] hover:bg-[#B38F4F] dark:bg-[#B38F4F] dark:hover:bg-[#A67C3D] text-white rounded-xl font-bold text-[11px] md:text-xs transition-colors flex items-center justify-center gap-1">
+                                <span>استفسار عن السعر</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        function openModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if(!product) return;
+
+            activeProduct = product;
+            currentImageIndex = 0;
+
+            document.getElementById('modal-title').innerText = product.name;
+            document.getElementById('modal-desc').innerText = product.desc;
+            document.getElementById('modal-tag').innerText = product.tagName;
+            document.getElementById('modal-code').innerText = `كود: ${product.code}`;
+            
+            updateModalImage();
+            renderThumbnails();
+
+            document.getElementById('modal-whatsapp-btn').onclick = () => {
+                sendWhatsAppProduct(product.name, product.code);
+            };
+
+            document.getElementById('product-modal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function renderThumbnails() {
+            const thumbContainer = document.getElementById('modal-thumbnails');
+            thumbContainer.innerHTML = "";
+
+            activeProduct.images.forEach((imgUrl, index) => {
+                const isActive = index === currentImageIndex ? 'border-[#B38F4F]' : 'border-transparent';
+                const thumb = `
+                    <img id="thumb-${index}" src="${imgUrl}" onclick="selectImageByIndex(${index})" class="h-14 w-14 md:h-20 md:w-20 object-contain p-1 rounded-xl border-2 ${isActive} cursor-pointer hover:border-[#B38F4F] transition-all flex-shrink-0 bg-white dark:bg-[#1E1E1E]">
+                `;
+                thumbContainer.innerHTML += thumb;
+            });
+        }
+
+        function updateModalImage() {
+            const mainImg = document.getElementById('modal-main-img');
+            mainImg.src = activeProduct.images[currentImageIndex];
+            
+            const thumbs = document.querySelectorAll('#modal-thumbnails img');
+            thumbs.forEach((t, index) => {
+                if(index === currentImageIndex) {
+                    t.classList.remove('border-transparent');
+                    t.classList.add('border-[#B38F4F]');
+                    t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    t.classList.remove('border-[#B38F4F]');
+                    t.classList.add('border-transparent');
+                }
+            });
+        }
+
+        function selectImageByIndex(index) {
+            currentImageIndex = index;
+            updateModalImage();
+        }
+
+        function nextImage() {
+            if (!activeProduct) return;
+            currentImageIndex = (currentImageIndex + 1) % activeProduct.images.length;
+            updateModalImage();
+        }
+
+        function prevImage() {
+            if (!activeProduct) return;
+            currentImageIndex = (currentImageIndex - 1 + activeProduct.images.length) % activeProduct.images.length;
+            updateModalImage();
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            activeProduct = null;
+        }
+
+        function filterProducts(category) {
+            currentCategory = category;
+            const buttons = document.querySelectorAll('.category-btn');
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            buttons.forEach(btn => {
+                btn.className = "category-btn px-4 py-1.5 md:px-6 md:py-2.5 rounded-full font-bold text-xs md:text-base border transition-all " + 
+                                (isDark ? "bg-[#242424] text-white border-gray-700 hover:border-gray-500" : "bg-white text-[#1E1E1E] border-gray-200 hover:border-gray-400");
+            });
+            
+            const activeBtn = document.getElementById(`btn-${category}`);
+            if(activeBtn) {
+                if(isDark) {
+                    activeBtn.className = "category-btn px-4 py-1.5 md:px-6 md:py-2.5 rounded-full font-bold text-xs md:text-base border transition-all bg-white text-[#121212] border-white";
+                } else {
+                    activeBtn.className = "category-btn px-4 py-1.5 md:px-6 md:py-2.5 rounded-full font-bold text-xs md:text-base border transition-all bg-[#1E1E1E] text-white border-[#1E1E1E]";
+                }
+            }
+
+            if (category === 'all') {
+                displayProducts(products);
+            } else {
+                displayProducts(products.filter(p => p.category === category));
+            }
+        }
+
+        filterProducts('all');
+
+        // تأثير قفل وتصغير الهيدر عند السكروول المتجاوب للموبايل والـ Desktop
+        const header = document.getElementById('main-header');
+        const logo = document.getElementById('logo');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 30) {
+                header.classList.remove('h-20', 'md:h-28', 'bg-[#FDFDFD]');
+                header.classList.add('h-16', 'md:h-20', 'bg-white/90', 'dark:bg-[#121212]/90', 'backdrop-blur-md');
+                logo.classList.remove('h-14', 'w-14', 'md:h-28', 'md:w-28');
+                logo.classList.add('h-10', 'w-10', 'md:h-16', 'md:w-16');
+            } else {
+                header.classList.remove('h-16', 'md:h-20', 'bg-white/90', 'dark:bg-[#121212]/90', 'backdrop-blur-md');
+                header.classList.add('h-20', 'md:h-28', 'bg-[#FDFDFD]');
+                logo.classList.remove('h-10', 'w-10', 'md:h-16', 'md:w-16');
+                logo.classList.add('h-14', 'w-14', 'md:h-28', 'md:w-28');
+            }
+        });
+    </script>
+</body>
+</html>
