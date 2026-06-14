@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مصنع NGB للشنط | توريد جملة</title>
-    <!-- استدعاء Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- استدعاء خط Cairo الشيك -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
@@ -30,36 +28,30 @@
 </head>
 <body class="bg-[#FDFDFD] text-[#1E1E1E] dark:bg-[#121212] dark:text-[#E0E0E0] transition-colors duration-300">
 
-    <!-- ================= هاتف الواتساب الموحد للمبيعات ================= -->
     <script>
-        const WHATSAPP_NUMBER = "201105667159"; 
+        const WHATSAPP_NUMBER = "201055582625"; 
     </script>
 
-    <!-- ================= الهيدر (Header) ================= -->
     <header id="main-header" class="fixed top-0 left-0 right-0 z-40 transition-all-custom bg-[#FDFDFD] dark:bg-[#121212] h-20 md:h-28 border-b border-transparent dark:border-gray-800 shadow-sm md:shadow-none">
         <div class="max-w-7xl mx-auto h-full px-4 md:px-6 flex items-center justify-between relative">
             
-            <!-- زر القائمة الجانبية للموبايل -->
             <button onclick="toggleMobileMenu()" class="block md:hidden text-gray-800 dark:text-white p-2 focus:outline-none" aria-label="Open Menu">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
 
-            <!-- القائمة العادية للشاشات الكبيرة -->
             <nav class="hidden md:flex items-center gap-8 font-semibold text-lg">
                 <a href="#home" class="hover:text-[#B38F4F] transition-colors">الرئيسية</a>
                 <a href="#catalog" class="hover:text-[#B38F4F] transition-colors">كتالوج الجملة</a>
             </nav>
 
-            <!-- اللوجو المتجاوب ممركز في المنتصف على الموبايل وعلى اليمين/الوسط في الـ desktop -->
             <div class="absolute left-1/2 transform -translate-x-1/2 md:top-2 z-10 top-1/2 -translate-y-1/2 md:translate-y-0">
                 <a href="#home" class="block">
                     <img id="logo" src="logo.png" alt="NGB Bag Factory Logo" class="transition-all-custom object-contain h-14 w-14 md:h-28 md:w-28">
                 </a>
             </div>
 
-            <!-- زر التواصل السريع -->
             <div class="flex items-center gap-2">
                 <button onclick="openQuickContact()" class="flex items-center gap-1.5 bg-[#B38F4F] hover:bg-[#A67C3D] text-white px-3 py-2 md:px-5 md:py-2.5 rounded-lg font-bold transition-all shadow-md text-xs md:text-base">
                     <span class="hidden sm:inline">تواصل سريع</span>
@@ -73,7 +65,6 @@
         </div>
     </header>
 
-    <!-- القائمة الجانبية المنسدلة للموبايل -->
     <div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-white dark:bg-[#1E1E1E] z-50 transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl md:hidden">
         <div class="p-6 flex flex-col h-full">
             <div class="flex items-center justify-between pb-6 border-b border-gray-100 dark:border-gray-800">
@@ -90,11 +81,9 @@
             </nav>
         </div>
     </div>
-    <!-- خلفية داكنة عند فتح القائمة الجانبية -->
     <div id="mobile-menu-overlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
 
 
-    <!-- ================= قسم الهيرو (Hero Section) ================= -->
     <section id="home" class="pt-32 pb-16 md:pt-40 md:pb-20 min-h-[50vh] md:min-h-[60vh] flex items-center justify-center px-4 md:px-6">
         <div class="max-w-5xl mx-auto text-center">
             <span class="inline-block bg-[#B38F4F]/10 text-[#B38F4F] px-3 py-1 md:px-4 md:py-1.5 rounded-full text-xs md:text-sm font-bold tracking-wide mb-4 md:mb-6">
@@ -115,7 +104,6 @@
         </div>
     </section>
 
-    <!-- ================= قسم كتالوج المنتجات ================= -->
     <section id="catalog" class="py-12 md:py-20 bg-[#F9F9F6] dark:bg-[#1A1A1A] transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 md:px-6">
             
@@ -124,7 +112,6 @@
                 <p class="text-xs md:text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto">كل موديل يحمل كوداً خاصاً لتسهيل عملية الاستفسار والطلب الفوري</p>
             </div>
 
-            <!-- أزرار الأقسام (تعديل: تمرير أفقي سلس للموبايل) -->
             <div class="w-full overflow-x-auto no-scrollbar mb-8 md:mb-12 -mx-4 px-4 md:mx-0 md:px-0 flex justify-start md:justify-center">
                 <div class="flex gap-2 pb-2 whitespace-nowrap">
                     <button onclick="filterProducts('all')" id="btn-all" class="category-btn px-5 py-2 rounded-full font-bold text-xs md:text-base border transition-all">كل الشنط</button>
@@ -136,54 +123,44 @@
                 </div>
             </div>
 
-            <!-- شبكة المنتجات متجاوبة وممتازة للموبايل كارتين في الصف -->
             <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-                <!-- الـ JavaScript هيفرش الكروت هنا -->
-            </div>
+                </div>
         </div>
     </section>
 
-    <!-- ================= نافذة تفاصيل الشنطة المنبثقة المتجاوبة بالكامل ================= -->
     <div id="product-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-end md:items-center justify-center p-0 md:p-4 backdrop-blur-sm">
         <div class="bg-white dark:bg-[#1E1E1E] rounded-t-3xl md:rounded-3xl max-w-4xl w-full h-[85vh] md:h-auto max-h-[90vh] overflow-y-auto no-scrollbar relative shadow-2xl flex flex-col md:flex-row">
             
-            <!-- زرار الإغلاق - مناسب للموبايل ومكبر اللمس -->
             <button onclick="closeModal()" class="absolute top-4 right-4 bg-white/90 hover:bg-white dark:bg-[#2d2d2d] dark:text-white text-gray-800 p-2.5 rounded-full shadow-md z-10 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
 
-            <!-- الجزء الأيمن: معرض الصور -->
             <div class="w-full md:w-1/2 p-4 md:p-6 bg-gray-50 dark:bg-[#242424] flex flex-col justify-between relative group/gallery flex-shrink-0">
                 <div class="w-full aspect-square rounded-2xl overflow-hidden bg-gray-100 dark:bg-[#1a1a1a] shadow-sm mb-3 md:mb-4 relative">
                     <img id="modal-main-img" src="" alt="" class="w-full h-full object-contain p-2">
                     
-                    <!-- سهم اليمين (مكبر للموبايل) -->
                     <button onclick="prevImage()" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white p-3 rounded-full transition-all shadow-md focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
                     
-                    <!-- سهم الشمال (مكبر للموبايل) -->
                     <button onclick="nextImage()" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white p-3 rounded-full transition-all shadow-md focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
                 </div>
-                <!-- شريط الصور المصغرة باللمس والتمرير السلس -->
                 <div id="modal-thumbnails" class="flex gap-2 overflow-x-auto pb-1 no-scrollbar scroll-smooth"></div>
             </div>
 
-            <!-- الجزء الأيسر: تفاصيل الشنطة والطلب -->
             <div class="w-full md:w-1/2 p-5 md:p-8 flex flex-col justify-between flex-grow">
                 <div>
                     <div class="flex items-center justify-between mb-3">
                         <span id="modal-tag" class="inline-block bg-[#B38F4F]/10 text-[#B38F4F] px-2.5 py-0.5 rounded-full text-xs font-bold"></span>
                         
-                        <!-- كود المنتج -->
                         <div class="flex items-center gap-1">
                             <span id="modal-code" class="text-xs font-mono font-bold bg-gray-100 text-gray-600 dark:bg-[#2d2d2d] dark:text-gray-300 px-2.5 py-1 rounded-md"></span>
                             <button onclick="copyProductCode()" class="bg-gray-100 hover:bg-gray-200 dark:bg-[#2d2d2d] dark:hover:bg-[#3d3d3d] p-1.5 rounded-md transition-all relative group" title="نسخ الكود">
@@ -217,7 +194,6 @@
         </div>
     </div>
 
-    <!-- ================= الجزء الذكي (JavaScript) ================= -->
     <script>
         const products = [
             { 
@@ -355,7 +331,7 @@
                                 <p class="text-[10px] md:text-[11px] text-gray-400 dark:text-gray-500 mb-2 md:mb-3">اضغط للتصفح والتفاصيل</p>
                             </div>
                             <button onclick="sendWhatsAppProduct('${product.name}', '${product.code}')" class="w-full py-2 bg-[#1E1E1E] hover:bg-[#B38F4F] dark:bg-[#B38F4F] dark:hover:bg-[#A67C3D] text-white rounded-xl font-bold text-[11px] md:text-xs transition-colors flex items-center justify-center gap-1">
-                                <span>استفسار عن السعر</span>
+                                <span>استفسر عن السعر</span>
                             </button>
                         </div>
                     </div>
