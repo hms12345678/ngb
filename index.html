@@ -12,7 +12,7 @@
     <style>
         body {
             font-family: 'Cairo', sans-serif;
-            -webkit-tap-highlight-color: transparent; /* إخفاء الوميض الأزرق عند الضغط في الموبايل */
+            -webkit-tap-highlight-color: transparent; 
         }
         .transition-all-custom {
             transition: all 0.3s ease-in-out;
@@ -83,7 +83,6 @@
     </div>
     <div id="mobile-menu-overlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
 
-
     <section id="home" class="pt-32 pb-16 md:pt-40 md:pb-20 min-h-[50vh] md:min-h-[60vh] flex items-center justify-center px-4 md:px-6">
         <div class="max-w-5xl mx-auto text-center">
             <span class="inline-block bg-[#B38F4F]/10 text-[#B38F4F] px-3 py-1 md:px-4 md:py-1.5 rounded-full text-xs md:text-sm font-bold tracking-wide mb-4 md:mb-6">
@@ -123,8 +122,7 @@
                 </div>
             </div>
 
-            <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-                </div>
+            <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"></div>
         </div>
     </section>
 
@@ -152,6 +150,12 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
+
+                    <button id="modal-video-btn" onclick="openVideoModal(event)" class="absolute bottom-4 left-4 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg transition-all transform hover:scale-110 flex items-center justify-center hidden" title="معاينة الفيديو">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
                 </div>
                 <div id="modal-thumbnails" class="flex gap-2 overflow-x-auto pb-1 no-scrollbar scroll-smooth"></div>
             </div>
@@ -177,14 +181,14 @@
                     
                     <div class="mb-4 md:mb-6 bg-gray-50 dark:bg-[#242424] p-3 md:p-4 rounded-2xl border border-gray-100 dark:border-gray-800">
                         <p class="text-xs md:text-sm font-semibold text-[#1E1E1E] dark:text-white mb-1">📋 ملحوظة لتجار الجملة:</p>
-                        <p class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400 leading-relaxed">الأسعار تعتمد على حجم الطلبية والكميات المطلوبة.         .</p>
+                        <p class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400 leading-relaxed">الأسعار تعتمد على حجم الطلبية والكميات المطلوبة.</p>
                     </div>
                 </div>
 
                 <div class="pb-4 md:pb-0">
                     <button id="modal-whatsapp-btn" class="w-full py-3.5 md:py-4 bg-[#1E1E1E] hover:bg-[#B38F4F] dark:bg-[#B38F4F] dark:hover:bg-[#A67C3D] text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2 md:gap-3 shadow-md">
                         <span class="text-sm md:text-base">استفسر عن السعر عبر الواتساب</span>
-                        <svg xmlns="http://www.w3.org/2000/xl" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                         </svg>
                     </button>
@@ -194,379 +198,195 @@
         </div>
     </div>
 
+    <div id="video-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md" onclick="closeVideoModal()">
+        <div class="relative w-full max-w-2xl bg-black rounded-2xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+            <button onclick="closeVideoModal()" class="absolute top-4 right-4 bg-white text-black hover:bg-gray-200 p-2 rounded-full z-10 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="w-full aspect-video">
+                <video id="preview-video" controls class="w-full h-full object-contain">
+                    <source id="video-source" src="" type="video/mp4">
+                    متصفحك لا يدعم تشغيل الفيديو.
+                </video>
+            </div>
+        </div>
+    </div>
+
     <script>
         const products = [
             { 
                 id: 1, 
                 code: "NGB-CRS-01", 
-                name: "   كروس PL متعدد", 
+                name: "كروس PL متعدد", 
                 category: "cross", 
                 tagName: "كروس",
                 image: "cross PL1.jpg", 
                 desc: "",
-                images: [
-                    "cross PL2.jpg",
-                    "cross PL3.jpg",
-                    "cross PL4.jpg"
-                ]
+                images: ["cross PL2.jpg", "cross PL3.jpg", "cross PL4.jpg"]
             },
             { 
                 id: 2, 
                 code: "NGB-LAP-01", 
-                name: "    لاب CAT مقاس 19 موديل L4", 
+                name: "لاب CAT مقاس 19 موديل L4", 
                 category: "laptop", 
                 tagName: "لاب توب",
                 image: "cat lux1.jpg", 
                 desc: "شنطة لاب توب فخمة لرجال الأعمال والمهندسين. تحتوي على جيب حماية مبطن بتقنية Anti-Shock لحماية الأجهزة حتى مقاس 15.6 بوصة، منفذ USB مدمج للشحن الخارجي، وخامات أكسفورد واتربروف فاخرة.",
-                images: [
-                    "cat lux1.jpg",
-                    "cat lux2.jpg",
-                    "cat lux3.jpg",
-                    "cat lux4.jpg",
-                    "cat lux5.jpg",
-                    "cat lux6.jpg",
-                    "cat lux7.jpg",
-                    "cat lux8.jpg",
-                    "cat lux9.jpg",
-                    "cat lux10.jpg",
-                    "cat lux11.jpg",
-                    "cat lux12.jpg",
-                    "cat lux13.jpg"
-                ]
+                images: ["cat lux1.jpg", "cat lux2.jpg", "cat lux3.jpg", "cat lux4.jpg", "cat lux5.jpg", "cat lux6.jpg", "cat lux7.jpg", "cat lux8.jpg", "cat lux9.jpg", "cat lux10.jpg", "cat lux11.jpg", "cat lux12.jpg", "cat lux13.jpg"]
             },
             { 
                 id: 3, 
                 code: "NGB-CRS-02", 
-                name: "   كروس CAT متعدد L1 ", 
+                name: "كروس CAT متعدد L1", 
                 category: "cross", 
                 tagName: "كروس",
                 image: "cross CAT1.jpg", 
                 desc: "شنطة رحلات وسفر ضخمة سعة 50 لتر. أحزمة عريضة للكتف والخصر لتوزيع الوزن بشكل مثالي، دعامات ظهر مبطنة للتنفس، قماش بوليستر عالي الكثافة مقاوم للتمزق، ممتازة للتخييم والسفر الطويل.",
-                images: [
-                    "cross CAT2.jpg",
-                    "cross CAT3.jpg",
-"cross CAT4.jpg",
-"cross CAT5.jpg",
-"cross CAT6.jpg",
-"cross CAT7.jpg",
-"cross CAT8.jpg",
-   "cross CAT9.jpg",
-"cross CAT10.jpg", 
-            ]
+                images: ["cross CAT2.jpg", "cross CAT3.jpg", "cross CAT4.jpg", "cross CAT5.jpg", "cross CAT6.jpg", "cross CAT7.jpg", "cross CAT8.jpg", "cross CAT9.jpg", "cross CAT10.jpg"]
             },
-
-
-
-
             { 
                 id: 4, 
                 code: "NGB-LAP-02", 
-                name: "   لاب PL مقاس14  ", 
+                name: "لاب PL مقاس 14", 
                 category: "laptop", 
                 tagName: "لابتوب",
                 image: "LAP PL1.jpg", 
                 desc: "",
-                images: [
-                    "LAP PL2.jpg",
-                    "LAP PL3.jpg",
-                    "LAP PL4.jpg",
-                    "LAP PL5.jpg"
-                ]
+                images: ["LAP PL2.jpg", "LAP PL3.jpg", "LAP PL4.jpg", "LAP PL5.jpg"]
             },
-
-
-
             { 
                 id: 5, 
                 code: "NGB-SCH-01", 
-                name: "   مدرسة 17 بوصه دك مشجر    ", 
+                name: "مدرسة 17 بوصه دك مشجر", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "sc tre1.jpg", 
                 desc: "",
-                images: [
-                    "sc tre2.jpg",
-                    "sc tre3.jpg",
-                   
-                ]
+                images: ["sc tre2.jpg", "sc tre3.jpg"]
             },
-
             { 
                 id: 6, 
                 code: "NGB-LAP-03", 
-                name: "   لاب CAT 19بوصه NGB L1   ", 
+                name: "لاب CAT 19بوصه NGB L1", 
                 category: "laptop", 
                 tagName: "لابتوب",
                 image: "LAP CAT N1.jpg", 
                 desc: "",
-                images: [
-                    "LAP CAT N2.jpg",
-                    "LAP CAT N3.jpg",
-                   "LAP CAT N4.jpg",
-                   "LAP CAT N5.jpg",
-                   "LAP CAT N6.jpg"
-                
-                
-                
-                
-                ]
+                images: ["LAP CAT N2.jpg", "LAP CAT N3.jpg", "LAP CAT N4.jpg", "LAP CAT N5.jpg", "LAP CAT N6.jpg"]
             },
-
             { 
                 id: 7, 
                 code: "NGB-SCH-02", 
-                name: "   جرفدنيه روز باج 2 حاجز مقاس 17   ", 
+                name: "جرفدنيه روز باج 2 حاجز مقاس 17", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "SCH GRV0.jpg", 
                 desc: "",
-                images: [
-                    "SCH GRV2.jpg",
-                    "SCH GRV3.jpg",
-                    "SCH GRV4.jpg",
-                    "SCH GRV5.jpg",
-                   "SCH GRV6.jpg",
-                   "SCH GRV7.jpg",
-                   "SCH GRV8.jpg",
-                   "SCH GRV9.jpg",
-                   "SCH GRV10.jpg"
-                ]
+                images: ["SCH GRV2.jpg", "SCH GRV3.jpg", "SCH GRV4.jpg", "SCH GRV5.jpg", "SCH GRV6.jpg", "SCH GRV7.jpg", "SCH GRV8.jpg", "SCH GRV9.jpg", "SCH GRV10.jpg"]
             },
-
             { 
-                id:8 , 
+                id: 8, 
                 code: "NGB-SCH-03", 
-                name: "  جرفنديه دروس بناتي &ولادي مقاس 17 حاجز1  ", 
+                name: "جرفنديه دروس بناتي & ولادي مقاس 17 حاجز1", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "SCH GRVB1.jpg", 
                 desc: "",
-                images: [
-                    "SCH GRVB2.jpg",
-                    "SCH GRVB3.jpg",
-                    "SCH GRVB4.jpg",
-                    "SCH GRVB5.jpg",
-                   "SCH GRVB6.jpg",
-                   "SCH GRVB7.jpg",
-                   "SCH GRVB8.jpg",
-                   "SCH GRVB9.jpg",
-                   "SCH GRVB10.jpg",
-                   "SCH GRVB11.jpg",
-                   "SCH GRVB12.jpg",
-                   "SCH GRVB13.jpg",
-                   "SCH GRVB14.jpg",
-                   "SCH GRVB15.jpg",
-                   "SCH GRVB16.jpg",
-                   "SCH GRVB17.jpg"
-                ]
+                images: ["SCH GRVB2.jpg", "SCH GRVB3.jpg", "SCH GRVB4.jpg", "SCH GRVB5.jpg", "SCH GRVB6.jpg", "SCH GRVB7.jpg", "SCH GRVB8.jpg", "SCH GRVB9.jpg", "SCH GRVB10.jpg", "SCH GRVB11.jpg", "SCH GRVB12.jpg", "SCH GRVB13.jpg", "SCH GRVB14.jpg", "SCH GRVB15.jpg", "SCH GRVB16.jpg", "SCH GRVB17.jpg"]
             },
-
-
-
             { 
-                id:9 , 
+                id: 9, 
                 code: "NGB-SCH-04", 
-                name: "  جرفنديه ماركات مقاس 18 3سوسته ", 
+                name: "جرفنديه ماركات مقاس 18 3سوسته", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "SCH GRVN 1.jpg", 
                 desc: "",
-                images: [
-                    "SCH GRVN 2.jpg",
-                    "SCH GRVN 3.jpg",
-                    "SCH GRVN 4.jpg",
-                    "SCH GRVN 5.jpg",
-                   "SCH GRVN 6.jpg",
-                   "SCH GRVN 7.jpg",
-                   "SCH GRVN 8.jpg",
-                   "SCH GRVN 9.jpg",
-                   "SCH GRVN 10.jpg",
-                   "SCH GRVN 11.jpg",
-                   "SCH GRVN 12.jpg",
-                   "SCH GRVN 13.jpg",
-                   "SCH GRVN 14.jpg",
-            ]
+                images: ["SCH GRVN 2.jpg", "SCH GRVN 3.jpg", "SCH GRVN 4.jpg", "SCH GRVN 5.jpg", "SCH GRVN 6.jpg", "SCH GRVN 7.jpg", "SCH GRVN 8.jpg", "SCH GRVN 9.jpg", "SCH GRVN 10.jpg", "SCH GRVN 11.jpg", "SCH GRVN 12.jpg", "SCH GRVN 13.jpg", "SCH GRVN 14.jpg"]
             },
-
-
-
-
             { 
                 id: 10, 
                 code: "NGB-LAP-04", 
-                name: "   لاب CAT مشروز مقاس 19  ", 
+                name: "لاب CAT مشروز مقاس 19", 
                 category: "laptop", 
                 tagName: "لابتوب",
                 image: "LAP CAT M1.jpg", 
                 desc: "",
-                images: [
-                    "LAP CAT M2.jpg",
-                    "LAP CAT M3.jpg",
-                   "LAP CAT M4.jpg",
-                   "LAP CAT M5.jpg",
-                 
-                
-                
-                
-                
-                ]
+                images: ["LAP CAT M2.jpg", "LAP CAT M3.jpg", "LAP CAT M4.jpg", "LAP CAT M5.jpg"]
             },
-
-
-
             { 
-                id:11 , 
+                id: 11, 
                 code: "NGB-SCH-05", 
-                name: "  وتر بروف 2حاجز مقاس 18", 
+                name: "وتر بروف 2حاجز مقاس 18", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "SCH WH1.jpg", 
                 desc: "",
-                images: [
-                    "SCH WH2.jpg",
-                    "SCH WH3.jpg",
-                    "SCH WH4.jpg",
-                    "SCH WH5.jpg",
-                   "SCH WH6.jpg",
-               
-            ]
+                images: ["SCH WH2.jpg", "SCH WH3.jpg", "SCH WH4.jpg", "SCH WH5.jpg", "SCH WH6.jpg"]
             },
-
-
-
             { 
-                id:12 , 
+                id: 12, 
                 code: "NGB-SCH-06", 
-                name:  "يوني كورن دروس بناتي مقاس 16", 
+                name: "يوني كورن دروس بناتي مقاس 16", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "SCH UNI 1.jpg", 
                 desc: "",
-                images: [
-                    "SCH UNI 2.jpg",
-                    "SCH UNI 3.jpg",
-                    "SCH UNI 4.jpg",
-                    "SCH UNI 5.jpg",
-                 
-               
-            ]
+                images: ["SCH UNI 2.jpg", "SCH UNI 3.jpg", "SCH UNI 4.jpg", "SCH UNI 5.jpg"]
             },
-
-
-
             { 
-                id:13 , 
+                id: 13, 
                 code: "NGB-SCH-07", 
-                name:   "    مدرسة Sلوكس 3حاجز مقاس 18     ", 
+                name: "مدرسة Sلوكس 3حاجز مقاس 18", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "SCH LOX1.jpg", 
                 desc: "",
-                images: [
-                    "SCH LOX2.jpg",
-                    "SCH LOX3.jpg",
-                    "SCH LOX4.jpg",
-                    "SCH LOX5.jpg",
-                    "SCH LOX6.jpg",
-                    "SCH LOX7.jpg",
-                    "SCH LOX8.jpg",
-                    "SCH LOX9.jpg",
-                    "SCH LOX10.jpg",
-                    "SCH LOX11.jpg",
-                    "SCH LOX12.jpg"
-                 
-               
-            ]
+                images: ["SCH LOX2.jpg", "SCH LOX3.jpg", "SCH LOX4.jpg", "SCH LOX5.jpg", "SCH LOX6.jpg", "SCH LOX7.jpg", "SCH LOX8.jpg", "SCH LOX9.jpg", "SCH LOX10.jpg", "SCH LOX11.jpg", "SCH LOX12.jpg"]
             },
-
-
-
             { 
                 id: 14, 
                 code: "NGB-LAP-05", 
-                name: "   لاب CAT مشروز مطعم مقاس 17 ", 
+                name: "لاب CAT مشروز مطعم مقاس 17", 
                 category: "laptop", 
                 tagName: "لابتوب",
                 image: "LAP CAT W1.jpg", 
                 desc: "",
-                images: [
-                    "LAP CAT W2.jpg",
-                    "LAP CAT W3.jpg",
-                   "LAP CAT W4.jpg",
-                   "LAP CAT W5.jpg",
-                   "LAP CAT W6.jpg",
-                   "LAP CAT W7.jpg",
-                   "LAP CAT W8.jpg",
-                   "LAP CAT W9.jpg",
-                   "LAP CAT W10.jpg",
-                   "LAP CAT W11.jpg",
-                   "LAP CAT W12.jpg"
-                 
-                
-                
-                
-                
-                ]
+                images: ["LAP CAT W2.jpg", "LAP CAT W3.jpg", "LAP CAT W4.jpg", "LAP CAT W5.jpg", "LAP CAT W6.jpg", "LAP CAT W7.jpg", "LAP CAT W8.jpg", "LAP CAT W9.jpg", "LAP CAT W10.jpg", "LAP CAT W11.jpg", "LAP CAT W12.jpg"]
             },
-
-
-
             { 
-                id:15 , 
+                id: 15, 
                 code: "NGB-SCH-08", 
-                name:   "    حضانه سنيوريتا 1 حاجز مقاس 13    ", 
+                name: "حضانه سنيوريتا 1 حاجز مقاس 13", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "SCH HADA1.jpg", 
                 desc: "",
-                images: [
-                    "SCH HADA2.jpg",
-                    "SCH HADA3.jpg",
-                    "SCH HADA4.jpg",
-                    "SCH HADA5.jpg",
-                    "SCH HADA6.jpg",
-                    "SCH HADA7.jpg",
-                    "SCH HADA8.jpg",
-                    "SCH HADA9.jpg",
-                    "SCH HADA10.jpg",
-                    "SCH HADA11.jpg",
-                    "SCH HADA12.jpg",
-                    "SCH HADA13.jpg",
-             
-                 
-               
-            ]
+                images: ["SCH HADA2.jpg", "SCH HADA1.jpg", "SCH HADA3.jpg", "SCH HADA4.jpg", "SCH HADA5.jpg", "SCH HADA6.jpg", "SCH HADA7.jpg", "SCH HADA8.jpg", "SCH HADA9.jpg", "SCH HADA10.jpg", "SCH HADA11.jpg", "SCH HADA12.jpg", "SCH HADA13.jpg"]
             },
-
-
-
-
-
-
-   { 
-                id:16 , 
+            { 
+                id: 16, 
                 code: "NGB-SCH-09", 
-                name:   "    حضانه سنيوريتا 2 حاجز مقاس 13  ", 
+                name: "حضانه سنيوريتا 2 حاجز مقاس 13", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "SCH HH1.jpg", 
                 desc: "",
-                images: [
-                   
-                    "SCH HH2.jpg",
-                    "SCH HH3.jpg",
-                    "SCH HH4.jpg",
-                    "SCH HH5.jpg",
-                    "SCH HH6.jpg",
-                    "SCH HH7.jpg",
-                    "SCH HH8.jpg"
-             
-                 
-               
-            ]
+                images: ["SCH HH2.jpg", "SCH HH3.jpg", "SCH HH4.jpg", "SCH HH5.jpg", "SCH HH6.jpg", "SCH HH7.jpg", "SCH HH8.jpg"]
             },
-
-
+            { 
+                id: 17, 
+                code: "NGB-SCH-10", 
+                name: "سنيوريتا مقاس 17", 
+                category: "school", 
+                tagName: "مدرسه",
+                image: "SCH SNO2.jpg", 
+                desc: "",
+                images: [ "SCH SNO3.jpg", "SCH SNO4.jpg", "SCH SNO5.jpg", "SCH SNO6.jpg", "SCH SNO7.jpg", "SCH SNO8.jpg", "SCH SNO9.jpg", "SCH SNO10.jpg", "SCH SNO11.jpg", "SCH SNO12.jpg", "SCH SNO13.jpg"],
+                
+            },
 
 
 
@@ -576,33 +396,70 @@
 
 
             { 
-                id:17 , 
-                code: "NGB-SCH-10", 
-                name:   "    سنيوريتا مقاس 17   ", 
+                id: 18, 
+                code: "NGB-SCH-11", 
+                name: "  مدرسه NGB مقاس 15", 
                 category: "school", 
                 tagName: "مدرسه",
-                image: "SCH SNO2.jpg", 
+                image: "SCH NGG1.jpg", 
+                desc: "",
+                images: [ "SCH NGG2.jpg", "SCH NGG3.jpg", "SCH NGG4.jpg", "SCH NGG5.jpg", "SCH NGG6.jpg", "SCH NGG7.jpg", "SCH NGG8.jpg", "SCH NGG9.jpg", "SCH NGG10.jpg", "SCH NGG11.jpg", "SCH NGG12.jpg","SCH NGG13.jpg"  ],
+                
+            },
+
+
+
+            { 
+                id: 19, 
+                code: "NGB-SCH-12", 
+                name: "     طقم3*1 مقاس 16", 
+                category: "school", 
+                tagName: "مدرسه",
+                image: "SCH XX1.jpg", 
                 desc: "",
                 images: [
-                    "SCH SNO2.jpg",
-                    "SCH SNO3.jpg",
-                    "SCH SNO4.jpg",
-                    "SCH SNO5.jpg",
-                    "SCH SNO6.jpg",
-                    "SCH SNO7.jpg",
-                    "SCH SNO8.jpg",
-                    "SCH SNO9.jpg",
-                    "SCH SNO10.jpg",
-                    "SCH SNO11.jpg",
-                    "SCH SNO12.jpg",
-                    "SCH SNO13.jpg",
-
-                 
-             
-                 
-               
-            ]
+                "SCH XX2.jpg",
+                "SCH XX3.jpg",
+                "SCH XX4.jpg",
+                "SCH XX5.jpg",
+                "SCH XX6.jpg",
+                "SCH XX7.jpg",
+                "SCH XX8.jpg",
+                "SCH XX9.jpg",
+                "SCH XX10.jpg",
+                "SCH XX11.jpg",
+                "SCH XX12.jpg",
+                "SCH XX13.jpg"  ],
+                
             },
+
+
+
+            { 
+                id: 120, 
+                code: "NGB-TRV-01", 
+                name: "رحاله جامبو للجيش و الرحلات و السفاري مقاس 22  ", 
+                category: "travel", 
+                tagName: "رحاله",
+                image: "TRV M1.jpg", 
+                desc: "",
+                images: [
+                "TRV M2.jpg",
+                "TRV M3.jpg",
+                "TRV M4.jpg",
+                "TRV M5.jpg",
+                "TRV M6.jpg",
+                "TRV M7.jpg",
+                "TRV M8.jpg",
+                "TRV M9.jpg",
+                "TRV M10.jpg",
+                "TRV M11.jpg",
+                "TRV M12.jpg",
+                "TRV M13.jpg"  ],
+                
+            },
+
+
 
 
 
@@ -622,7 +479,6 @@
         let currentImageIndex = 0;
         let currentCategory = 'all'; 
 
-        // التحكم في المنيو الجانبية للموبايل
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             const overlay = document.getElementById('mobile-menu-overlay');
@@ -684,13 +540,25 @@
             }
             
             productsList.forEach(product => {
+                // التحقق من وجود فيديو للمنتج لإضافة أيقونة تشغيل الفيديو على الكارت
+                const videoButton = product.video ? `
+                    <button onclick="openCardVideo(event, '${product.video}')" class="absolute top-2.5 left-2.5 bg-red-600/90 hover:bg-red-600 text-white p-2 rounded-full shadow-md z-10 transition-all transform hover:scale-110 flex items-center justify-center" title="تشغيل الفيديو">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
+                ` : '';
+
                 const card = `
                     <div class="bg-white dark:bg-[#1E1E1E] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100 dark:border-gray-800 flex flex-col justify-between group relative">
-                        <div onclick="openModal(${product.id})" class="relative bg-gray-50 dark:bg-[#242424] pt-[100%] overflow-hidden cursor-pointer">
-                            <img src="${product.image}" alt="${product.name}" class="absolute inset-0 w-full h-full object-contain p-2 md:p-3 group-hover:scale-105 transition-transform duration-500">
-                            <span class="absolute bottom-1.5 right-1.5 bg-black/70 text-white text-[9px] md:text-[10px] font-mono px-1.5 py-0.5 rounded font-bold">${product.code}</span>
-                            <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hidden md:flex">
-                                <span class="bg-white/90 dark:bg-[#2d2d2d] dark:text-white text-xs font-bold px-3 py-1.5 rounded-lg text-gray-800 shadow-sm">معاينة الصور</span>
+                        <div class="relative bg-gray-50 dark:bg-[#242424] pt-[100%] overflow-hidden">
+                            ${videoButton}
+                            <div onclick="openModal(${product.id})" class="absolute inset-0 cursor-pointer">
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain p-2 md:p-3 group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute bottom-1.5 right-1.5 bg-black/70 text-white text-[9px] md:text-[10px] font-mono px-1.5 py-0.5 rounded font-bold">${product.code}</span>
+                                <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hidden md:flex">
+                                    <span class="bg-white/90 dark:bg-[#2d2d2d] dark:text-white text-xs font-bold px-3 py-1.5 rounded-lg text-gray-800 shadow-sm">معاينة الصور</span>
+                                </div>
                             </div>
                         </div>
                         <div class="p-3 md:p-4 flex-grow flex flex-col justify-between">
@@ -708,6 +576,28 @@
             });
         }
 
+        function filterProducts(category) {
+            currentCategory = category;
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-[#B38F4F]', 'text-white', 'border-transparent');
+                btn.classList.add('bg-transparent', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-gray-700');
+            });
+
+            const activeBtn = document.getElementById(`btn-${category}`);
+            if(activeBtn) {
+                activeBtn.classList.add('bg-[#B38F4F]', 'text-white', 'border-transparent');
+                activeBtn.classList.remove('bg-transparent', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-gray-700');
+            }
+
+            if(category === 'all') {
+                displayProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                displayProducts(filtered);
+            }
+        }
+
         function openModal(productId) {
             const product = products.find(p => p.id === productId);
             if(!product) return;
@@ -720,6 +610,14 @@
             document.getElementById('modal-tag').innerText = product.tagName;
             document.getElementById('modal-code').innerText = `كود: ${product.code}`;
             
+            // التحكم في ظهور زر الفيديو داخل المودال
+            const modalVideoBtn = document.getElementById('modal-video-btn');
+            if (product.video) {
+                modalVideoBtn.classList.remove('hidden');
+            } else {
+                modalVideoBtn.classList.add('hidden');
+            }
+
             updateModalImage();
             renderThumbnails();
 
@@ -731,102 +629,110 @@
             document.body.classList.add('overflow-hidden');
         }
 
-        function renderThumbnails() {
-            const thumbContainer = document.getElementById('modal-thumbnails');
-            thumbContainer.innerHTML = "";
-
-            activeProduct.images.forEach((imgUrl, index) => {
-                const isActive = index === currentImageIndex ? 'border-[#B38F4F]' : 'border-transparent';
-                const thumb = `
-                    <img id="thumb-${index}" src="${imgUrl}" onclick="selectImageByIndex(${index})" class="h-14 w-14 md:h-20 md:w-20 object-contain p-1 rounded-xl border-2 ${isActive} cursor-pointer hover:border-[#B38F4F] transition-all flex-shrink-0 bg-white dark:bg-[#1E1E1E]">
-                `;
-                thumbContainer.innerHTML += thumb;
-            });
+        function closeModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+            if (!document.getElementById('mobile-menu').classList.contains('translate-x-full')) {
+                return;
+            }
+            document.body.classList.remove('overflow-hidden');
         }
 
         function updateModalImage() {
-            const mainImg = document.getElementById('modal-main-img');
-            mainImg.src = activeProduct.images[currentImageIndex];
+            if (!activeProduct) return;
+            const images = [activeProduct.image, ...activeProduct.images];
+            document.getElementById('modal-main-img').src = images[currentImageIndex];
             
-            const thumbs = document.querySelectorAll('#modal-thumbnails img');
-            thumbs.forEach((t, index) => {
-                if(index === currentImageIndex) {
-                    t.classList.remove('border-transparent');
-                    t.classList.add('border-[#B38F4F]');
-                    t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            const thumbs = document.querySelectorAll('.thumb-btn');
+            thumbs.forEach((thumb, idx) => {
+                if(idx === currentImageIndex) {
+                    thumb.classList.add('border-[#B38F4F]');
+                    thumb.classList.remove('border-transparent');
                 } else {
-                    t.classList.remove('border-[#B38F4F]');
-                    t.classList.add('border-transparent');
+                    thumb.classList.remove('border-[#B38F4F]');
+                    thumb.classList.add('border-transparent');
                 }
             });
         }
 
-        function selectImageByIndex(index) {
-            currentImageIndex = index;
-            updateModalImage();
-        }
-
         function nextImage() {
             if (!activeProduct) return;
-            currentImageIndex = (currentImageIndex + 1) % activeProduct.images.length;
+            const total = 1 + activeProduct.images.length;
+            currentImageIndex = (currentImageIndex + 1) % total;
             updateModalImage();
         }
 
         function prevImage() {
             if (!activeProduct) return;
-            currentImageIndex = (currentImageIndex - 1 + activeProduct.images.length) % activeProduct.images.length;
+            const total = 1 + activeProduct.images.length;
+            currentImageIndex = (currentImageIndex - 1 + total) % total;
             updateModalImage();
         }
 
-        function closeModal() {
-            document.getElementById('product-modal').classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-            activeProduct = null;
-        }
+        function renderThumbnails() {
+            const container = document.getElementById('modal-thumbnails');
+            container.innerHTML = "";
+            if (!activeProduct) return;
 
-        function filterProducts(category) {
-            currentCategory = category;
-            const buttons = document.querySelectorAll('.category-btn');
-            const isDark = document.documentElement.classList.contains('dark');
-            
-            buttons.forEach(btn => {
-                btn.className = "category-btn px-4 py-1.5 md:px-6 md:py-2.5 rounded-full font-bold text-xs md:text-base border transition-all " + 
-                                (isDark ? "bg-[#242424] text-white border-gray-700 hover:border-gray-500" : "bg-white text-[#1E1E1E] border-gray-200 hover:border-gray-400");
+            const allImages = [activeProduct.image, ...activeProduct.images];
+            allImages.forEach((imgSrc, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `thumb-btn w-16 h-16 rounded-xl border-2 transition-all p-1 bg-white dark:bg-[#1a1a1a] flex-shrink-0 border-transparent`;
+                btn.onclick = () => {
+                    currentImageIndex = idx;
+                    updateModalImage();
+                };
+                btn.innerHTML = `<img src="${imgSrc}" class="w-full h-full object-contain">`;
+                container.appendChild(btn);
             });
-            
-            const activeBtn = document.getElementById(`btn-${category}`);
-            if(activeBtn) {
-                if(isDark) {
-                    activeBtn.className = "category-btn px-4 py-1.5 md:px-6 md:py-2.5 rounded-full font-bold text-xs md:text-base border transition-all bg-white text-[#121212] border-white";
-                } else {
-                    activeBtn.className = "category-btn px-4 py-1.5 md:px-6 md:py-2.5 rounded-full font-bold text-xs md:text-base border transition-all bg-[#1E1E1E] text-white border-[#1E1E1E]";
-                }
-            }
+            if(container.children[0]) container.children[0].classList.add('border-[#B38F4F]');
+        }
 
-            if (category === 'all') {
-                displayProducts(products);
-            } else {
-                displayProducts(products.filter(p => p.category === category));
+        // دالة فتح فيديو من داخل كارت المنتج مباشرة
+        function openCardVideo(event, videoSrc) {
+            event.stopPropagation(); // منع فتح المودال العادي للصور عند الضغط على زر الفيديو
+            const videoModal = document.getElementById('video-modal');
+            const videoElement = document.getElementById('preview-video');
+            const videoSource = document.getElementById('video-source');
+
+            videoSource.src = videoSrc;
+            videoElement.load();
+            videoModal.classList.remove('hidden');
+            videoElement.play();
+            document.body.classList.add('overflow-hidden');
+        }
+
+        // دالة فتح فيديو من داخل مودال تفاصيل المنتج
+        function openVideoModal(event) {
+            if (event) event.stopPropagation();
+            if (!activeProduct || !activeProduct.video) return;
+            
+            const videoModal = document.getElementById('video-modal');
+            const videoElement = document.getElementById('preview-video');
+            const videoSource = document.getElementById('video-source');
+
+            videoSource.src = activeProduct.video;
+            videoElement.load();
+            videoModal.classList.remove('hidden');
+            videoElement.play();
+        }
+
+        // دالة إغلاق مودال الفيديو
+        function closeVideoModal() {
+            const videoModal = document.getElementById('video-modal');
+            const videoElement = document.getElementById('preview-video');
+            
+            videoElement.pause();
+            videoModal.classList.add('hidden');
+            
+            // إذا كان مودال المنتجات مغلقاً، نقوم بإرجاع السكرول الخاص بالصفحة للوضع الطبيعي
+            if (document.getElementById('product-modal').classList.contains('hidden')) {
+                document.body.classList.remove('overflow-hidden');
             }
         }
 
-        filterProducts('all');
-
-        // تأثير قفل وتصغير الهيدر عند السكروول المتجاوب للموبايل والـ Desktop
-        const header = document.getElementById('main-header');
-        const logo = document.getElementById('logo');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 30) {
-                header.classList.remove('h-20', 'md:h-28', 'bg-[#FDFDFD]');
-                header.classList.add('h-16', 'md:h-20', 'bg-white/90', 'dark:bg-[#121212]/90', 'backdrop-blur-md');
-                logo.classList.remove('h-14', 'w-14', 'md:h-28', 'md:w-28');
-                logo.classList.add('h-10', 'w-10', 'md:h-16', 'md:w-16');
-            } else {
-                header.classList.remove('h-16', 'md:h-20', 'bg-white/90', 'dark:bg-[#121212]/90', 'backdrop-blur-md');
-                header.classList.add('h-20', 'md:h-28', 'bg-[#FDFDFD]');
-                logo.classList.remove('h-10', 'w-10', 'md:h-16', 'md:w-16');
-                logo.classList.add('h-14', 'w-14', 'md:h-28', 'md:w-28');
-            }
+        // التشغيل الأولي للكتالوج عند تحميل الصفحة
+        document.addEventListener("DOMContentLoaded", () => {
+            filterProducts('all');
         });
     </script>
 </body>
