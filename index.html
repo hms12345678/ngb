@@ -15,7 +15,7 @@
             -webkit-tap-highlight-color: transparent; 
         }
         .transition-all-custom {
-            transition: all 0.3s ease-in-out;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -23,6 +23,21 @@
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+        /* حالات الهيدر واللوجو عند التمرير */
+        header.scrolled {
+            height: 4.5rem !important; /* 72px */
+            background-color: rgba(253, 253, 253, 0.95) !important;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.1);
+        }
+        .dark header.scrolled {
+            background-color: rgba(18, 18, 18, 0.95) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        header.scrolled #logo {
+            height: 2.75rem !important; /* 44px */
+            width: 2.75rem !important;
         }
     </style>
 </head>
@@ -32,7 +47,8 @@
         const WHATSAPP_NUMBER = "201055582625"; 
     </script>
 
-    <header id="main-header" class="fixed top-0 left-0 right-0 z-40 transition-all-custom bg-[#FDFDFD] dark:bg-[#121212] h-20 md:h-28 border-b border-transparent dark:border-gray-800 shadow-sm md:shadow-none">
+    <!-- الهيدر الرئيسى -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-40 transition-all-custom bg-[#FDFDFD] dark:bg-[#121212] h-20 md:h-28 border-b border-transparent dark:border-gray-800">
         <div class="max-w-7xl mx-auto h-full px-4 md:px-6 flex items-center justify-between relative">
             
             <button onclick="toggleMobileMenu()" class="block md:hidden text-gray-800 dark:text-white p-2 focus:outline-none" aria-label="Open Menu">
@@ -46,9 +62,10 @@
                 <a href="#catalog" class="hover:text-[#B38F4F] transition-colors">كتالوج الجملة</a>
             </nav>
 
-            <div class="absolute left-1/2 transform -translate-x-1/2 md:top-2 z-10 top-1/2 -translate-y-1/2 md:translate-y-0">
+            <!-- اللوجو مع التمركز التلقائي والتصغير عند التمرير -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 z-10 top-1/2 -translate-y-1/2">
                 <a href="#home" class="block">
-                    <img id="logo" src="logo.png" alt="NGB Bag Factory Logo" class="transition-all-custom object-contain h-14 w-14 md:h-28 md:w-28">
+                    <img id="logo" src="logo.png" alt="NGB Bag Factory Logo" class="transition-all-custom object-contain h-14 w-14 md:h-24 md:w-24">
                 </a>
             </div>
 
@@ -106,9 +123,26 @@
     <section id="catalog" class="py-12 md:py-20 bg-[#F9F9F6] dark:bg-[#1A1A1A] transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 md:px-6">
             
-            <div class="text-center mb-8 md:mb-12">
+            <div class="text-center mb-6 md:mb-8">
                 <h2 class="text-2xl md:text-4xl font-black text-[#1E1E1E] dark:text-white mb-2 md:mb-4">كتالوج منتجات الجملة</h2>
                 <p class="text-xs md:text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto">كل موديل يحمل كوداً خاصاً لتسهيل عملية الاستفسار والطلب الفوري</p>
+            </div>
+
+            <!-- شريط البحث السريع -->
+            <div class="max-w-md mx-auto mb-6 md:mb-8 relative">
+                <div class="relative flex items-center">
+                    <input type="text" id="search-input" oninput="handleSearch()" placeholder="ابحث باسم الموديل أو كود الشنطة..." class="w-full pl-10 pr-12 py-3 bg-white dark:bg-[#242424] border border-gray-200 dark:border-gray-700 rounded-2xl text-xs md:text-sm text-[#1E1E1E] dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#B38F4F] dark:focus:border-[#B38F4F] shadow-sm transition-all">
+                    <div class="absolute right-4 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <button id="clear-search" onclick="clearSearch()" class="absolute left-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             <div class="w-full overflow-x-auto no-scrollbar mb-8 md:mb-12 -mx-4 px-4 md:mx-0 md:px-0 flex justify-start md:justify-center">
@@ -162,8 +196,11 @@
 
             <div class="w-full md:w-1/2 p-5 md:p-8 flex flex-col justify-between flex-grow">
                 <div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span id="modal-tag" class="inline-block bg-[#B38F4F]/10 text-[#B38F4F] px-2.5 py-0.5 rounded-full text-xs font-bold"></span>
+                    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                        <div class="flex items-center gap-2">
+                            <span id="modal-tag" class="inline-block bg-[#B38F4F]/10 text-[#B38F4F] px-2.5 py-0.5 rounded-full text-xs font-bold"></span>
+                            <span id="modal-stock-status"></span>
+                        </div>
                         
                         <div class="flex items-center gap-1">
                             <span id="modal-code" class="text-xs font-mono font-bold bg-gray-100 text-gray-600 dark:bg-[#2d2d2d] dark:text-gray-300 px-2.5 py-1 rounded-md"></span>
@@ -187,7 +224,7 @@
 
                 <div class="pb-4 md:pb-0">
                     <button id="modal-whatsapp-btn" class="w-full py-3.5 md:py-4 bg-[#1E1E1E] hover:bg-[#B38F4F] dark:bg-[#B38F4F] dark:hover:bg-[#A67C3D] text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2 md:gap-3 shadow-md">
-                        <span class="text-sm md:text-base">استفسر عن السعر عبر الواتساب</span>
+                        <span id="modal-btn-text" class="text-sm md:text-base">استفسر عن السعر عبر الواتساب</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                         </svg>
@@ -215,6 +252,16 @@
     </div>
 
     <script>
+        // التحكم في تصغير الهيدر واللوجو عند التمرير (Scroll Effect)
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 40) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
         const products = [
             { 
                 id: 1, 
@@ -224,6 +271,7 @@
                 tagName: "كروس",
                 image: "cross PL1.jpg", 
                 desc: "",
+                inStock: true,
                 images: ["cross PL2.jpg", "cross PL3.jpg", "cross PL4.jpg"]
             },
             { 
@@ -234,6 +282,7 @@
                 tagName: "لاب توب",
                 image: "cat lux1.jpg", 
                 desc: "شنطة لاب توب فخمة لرجال الأعمال والمهندسين. تحتوي على جيب حماية مبطن بتقنية Anti-Shock لحماية الأجهزة حتى مقاس 15.6 بوصة، منفذ USB مدمج للشحن الخارجي، وخامات أكسفورد واتربروف فاخرة.",
+                inStock: false ,
                 images: ["cat lux1.jpg", "cat lux2.jpg", "cat lux3.jpg", "cat lux4.jpg", "cat lux5.jpg", "cat lux6.jpg", "cat lux7.jpg", "cat lux8.jpg", "cat lux9.jpg", "cat lux10.jpg", "cat lux11.jpg", "cat lux12.jpg", "cat lux13.jpg"]
             },
             { 
@@ -244,6 +293,7 @@
                 tagName: "كروس",
                 image: "cross CAT1.jpg", 
                 desc: "شنطة رحلات وسفر ضخمة سعة 50 لتر. أحزمة عريضة للكتف والخصر لتوزيع الوزن بشكل مثالي، دعامات ظهر مبطنة للتنفس، قماش بوليستر عالي الكثافة مقاوم للتمزق، ممتازة للتخييم والسفر الطويل.",
+                inStock: true,
                 images: ["cross CAT2.jpg", "cross CAT3.jpg", "cross CAT4.jpg", "cross CAT5.jpg", "cross CAT6.jpg", "cross CAT7.jpg", "cross CAT8.jpg", "cross CAT9.jpg", "cross CAT10.jpg"]
             },
             { 
@@ -254,6 +304,7 @@
                 tagName: "لابتوب",
                 image: "LAP PL1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["LAP PL2.jpg", "LAP PL3.jpg", "LAP PL4.jpg", "LAP PL5.jpg"]
             },
             { 
@@ -264,6 +315,7 @@
                 tagName: "مدرسه",
                 image: "sc tre1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["sc tre2.jpg", "sc tre3.jpg"]
             },
             { 
@@ -274,6 +326,7 @@
                 tagName: "لابتوب",
                 image: "LAP CAT N1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["LAP CAT N2.jpg", "LAP CAT N3.jpg", "LAP CAT N4.jpg", "LAP CAT N5.jpg", "LAP CAT N6.jpg"]
             },
             { 
@@ -284,6 +337,7 @@
                 tagName: "مدرسه",
                 image: "SCH GRV0.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["SCH GRV2.jpg", "SCH GRV3.jpg", "SCH GRV4.jpg", "SCH GRV5.jpg", "SCH GRV6.jpg", "SCH GRV7.jpg", "SCH GRV8.jpg", "SCH GRV9.jpg", "SCH GRV10.jpg"]
             },
             { 
@@ -294,6 +348,7 @@
                 tagName: "مدرسه",
                 image: "SCH GRVB1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["SCH GRVB2.jpg", "SCH GRVB3.jpg", "SCH GRVB4.jpg", "SCH GRVB5.jpg", "SCH GRVB6.jpg", "SCH GRVB7.jpg", "SCH GRVB8.jpg", "SCH GRVB9.jpg", "SCH GRVB10.jpg", "SCH GRVB11.jpg", "SCH GRVB12.jpg", "SCH GRVB13.jpg", "SCH GRVB14.jpg", "SCH GRVB15.jpg", "SCH GRVB16.jpg", "SCH GRVB17.jpg"]
             },
             { 
@@ -304,6 +359,7 @@
                 tagName: "مدرسه",
                 image: "SCH GRVN 1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["SCH GRVN 2.jpg", "SCH GRVN 3.jpg", "SCH GRVN 4.jpg", "SCH GRVN 5.jpg", "SCH GRVN 6.jpg", "SCH GRVN 7.jpg", "SCH GRVN 8.jpg", "SCH GRVN 9.jpg", "SCH GRVN 10.jpg", "SCH GRVN 11.jpg", "SCH GRVN 12.jpg", "SCH GRVN 13.jpg", "SCH GRVN 14.jpg"]
             },
             { 
@@ -314,6 +370,7 @@
                 tagName: "لابتوب",
                 image: "LAP CAT M1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["LAP CAT M2.jpg", "LAP CAT M3.jpg", "LAP CAT M4.jpg", "LAP CAT M5.jpg"]
             },
             { 
@@ -324,6 +381,7 @@
                 tagName: "مدرسه",
                 image: "SCH WH1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["SCH WH2.jpg", "SCH WH3.jpg", "SCH WH4.jpg", "SCH WH5.jpg", "SCH WH6.jpg"]
             },
             { 
@@ -334,6 +392,7 @@
                 tagName: "مدرسه",
                 image: "SCH UNI 1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["SCH UNI 2.jpg", "SCH UNI 3.jpg", "SCH UNI 4.jpg", "SCH UNI 5.jpg"]
             },
             { 
@@ -344,6 +403,7 @@
                 tagName: "مدرسه",
                 image: "SCH LOX1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["SCH LOX2.jpg", "SCH LOX3.jpg", "SCH LOX4.jpg", "SCH LOX5.jpg", "SCH LOX6.jpg", "SCH LOX7.jpg", "SCH LOX8.jpg", "SCH LOX9.jpg", "SCH LOX10.jpg", "SCH LOX11.jpg", "SCH LOX12.jpg"]
             },
             { 
@@ -354,6 +414,7 @@
                 tagName: "لابتوب",
                 image: "LAP CAT W1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["LAP CAT W2.jpg", "LAP CAT W3.jpg", "LAP CAT W4.jpg", "LAP CAT W5.jpg", "LAP CAT W6.jpg", "LAP CAT W7.jpg", "LAP CAT W8.jpg", "LAP CAT W9.jpg", "LAP CAT W10.jpg", "LAP CAT W11.jpg", "LAP CAT W12.jpg"]
             },
             { 
@@ -364,6 +425,7 @@
                 tagName: "مدرسه",
                 image: "SCH HADA1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["SCH HADA2.jpg", "SCH HADA1.jpg", "SCH HADA3.jpg", "SCH HADA4.jpg", "SCH HADA5.jpg", "SCH HADA6.jpg", "SCH HADA7.jpg", "SCH HADA8.jpg", "SCH HADA9.jpg", "SCH HADA10.jpg", "SCH HADA11.jpg", "SCH HADA12.jpg", "SCH HADA13.jpg"]
             },
             { 
@@ -374,6 +436,7 @@
                 tagName: "مدرسه",
                 image: "SCH HH1.jpg", 
                 desc: "",
+                inStock: false,
                 images: ["SCH HH2.jpg", "SCH HH3.jpg", "SCH HH4.jpg", "SCH HH5.jpg", "SCH HH6.jpg", "SCH HH7.jpg", "SCH HH8.jpg"]
             },
             { 
@@ -384,198 +447,93 @@
                 tagName: "مدرسه",
                 image: "SCH SNO2.jpg", 
                 desc: "",
-                images: [ "SCH SNO3.jpg", "SCH SNO4.jpg", "SCH SNO5.jpg", "SCH SNO6.jpg", "SCH SNO7.jpg", "SCH SNO8.jpg", "SCH SNO9.jpg", "SCH SNO10.jpg", "SCH SNO11.jpg", "SCH SNO12.jpg", "SCH SNO13.jpg"],
-                
+                inStock: true,
+                images: ["SCH SNO3.jpg", "SCH SNO4.jpg", "SCH SNO5.jpg", "SCH SNO6.jpg", "SCH SNO7.jpg", "SCH SNO8.jpg", "SCH SNO9.jpg", "SCH SNO10.jpg", "SCH SNO11.jpg", "SCH SNO12.jpg", "SCH SNO13.jpg"]
             },
-
-
-
-
-
-
-
-
-
-
             { 
                 id: 18, 
                 code: "NGB-SCH-11", 
-                name: "  مدرسه NGB مقاس 15", 
+                name: "مدرسه NGB مقاس 15", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "SCH NGG1.jpg", 
                 desc: "",
-                images: [ "SCH NGG2.jpg", "SCH NGG3.jpg", "SCH NGG4.jpg", "SCH NGG5.jpg", "SCH NGG6.jpg", "SCH NGG7.jpg", "SCH NGG8.jpg", "SCH NGG9.jpg", "SCH NGG10.jpg", "SCH NGG11.jpg", "SCH NGG12.jpg","SCH NGG13.jpg"  ],
-                
+                inStock: false,
+                images: ["SCH NGG2.jpg", "SCH NGG3.jpg", "SCH NGG4.jpg", "SCH NGG5.jpg", "SCH NGG6.jpg", "SCH NGG7.jpg", "SCH NGG8.jpg", "SCH NGG9.jpg", "SCH NGG10.jpg", "SCH NGG11.jpg", "SCH NGG12.jpg","SCH NGG13.jpg"]
             },
-
-
-
             { 
                 id: 19, 
                 code: "NGB-SCH-12", 
-                name: "     طقم3*1 مقاس 16", 
+                name: "طقم3*1 مقاس 16", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "SCH XX1.jpg", 
                 desc: "",
-                images: [
-                "SCH XX2.jpg",
-                "SCH XX3.jpg",
-                "SCH XX4.jpg",
-                "SCH XX5.jpg",
-                "SCH XX6.jpg",
-                "SCH XX7.jpg",
-                "SCH XX8.jpg",
-                "SCH XX9.jpg",
-                "SCH XX10.jpg",
-                "SCH XX11.jpg",
-                "SCH XX12.jpg",
-                "SCH XX13.jpg"  ],
-                
+                inStock: false,
+                images: ["SCH XX2.jpg", "SCH XX3.jpg", "SCH XX4.jpg", "SCH XX5.jpg", "SCH XX6.jpg", "SCH XX7.jpg", "SCH XX8.jpg", "SCH XX9.jpg", "SCH XX10.jpg", "SCH XX11.jpg", "SCH XX12.jpg", "SCH XX13.jpg"]
             },
-
-
-
             { 
                 id: 20, 
                 code: "NGB-TRV-01", 
-                name: "رحاله جامبو للجيش و الرحلات و السفاري مقاس 22  ", 
+                name: "رحاله جامبو للجيش و الرحلات و السفاري مقاس 22", 
                 category: "travel", 
                 tagName: "رحاله",
                 image: "TRV M1.jpg", 
                 desc: "",
-                images: [
-                "TRV M2.jpg",
-                "TRV M3.jpg",
-                "TRV M4.jpg",
-                "TRV M5.jpg",
-                "TRV M6.jpg",
-                "TRV M7.jpg",
-                "TRV M8.jpg",
-                "TRV M9.jpg",
-                "TRV M10.jpg",
-                "TRV M11.jpg",
-                "TRV M12.jpg",
-                "TRV M13.jpg"  ],
-                
+                inStock: true,
+                images: ["TRV M2.jpg", "TRV M3.jpg", "TRV M4.jpg", "TRV M5.jpg", "TRV M6.jpg", "TRV M7.jpg", "TRV M8.jpg", "TRV M9.jpg", "TRV M10.jpg", "TRV M11.jpg", "TRV M12.jpg", "TRV M13.jpg"]
             },
-
-
-
             { 
                 id: 21, 
                 code: "NGB-SCH-13", 
-                name: "مدرسه 2 حاجز ورده  ", 
+                name: "مدرسه 2 حاجز ورده", 
                 category: "school", 
                 tagName: "مدرسه",
                 image: "FLW1.jpg", 
                 desc: "",
-                images: [
-                "FLW2.jpg",
-                "FLW3.jpg",
-                "FLW4.jpg",
-                ],
-                
+                inStock: false,
+                images: ["FLW2.jpg", "FLW3.jpg", "FLW4.jpg"]
             },
-
-
-
             { 
                 id: 22, 
                 code: "NGB-LAP-06", 
-                name: "لاب كات لوكس م19 ل5 ", 
+                name: "لاب كات لوكس م19 ل5", 
                 category: "laptop", 
                 tagName: "لابتوب",
                 image: "lap l5.jpg", 
                 desc: "",
-                images: [
-                "lap l51.jpg",
-                "lap l52.jpg",
-              
-                ],
-                
+                inStock: true,
+                images: ["lap l51.jpg", "lap l52.jpg"]
             },
-
-
-            
-
-
             { 
                 id: 23, 
                 code: "NGB-HND-01", 
-                name: "هاند باج كات لوكس م 24 ", 
+                name: "هاند باج كات لوكس م 24", 
                 category: "handbag", 
                 tagName: "هاند باج",
                 image: "hndct.jpg", 
                 desc: "",
-                images: [
-                "hndct2.jpg",
-                "hndct3.jpg",
-              
-                ],
-                
+                inStock: true,
+                images: ["hndct2.jpg", "hndct3.jpg"]
             },
-
-
-
-
             { 
                 id: 24, 
                 code: "NGB-HND-02", 
-                name: "هاند باج كات بيضاوي م 24 ", 
+                name: "هاند باج كات بيضاوي م 24", 
                 category: "handbag", 
                 tagName: "هاند باج",
                 image: "HNDB.jpg", 
                 desc: "",
-                images: [
-                "HNDB2.jpg",
-                "HNDB3.jpg",
-              
-                ],
-                
-            },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                inStock: true,
+                images: ["HNDB2.jpg", "HNDB3.jpg"]
+            }
         ];
 
         const grid = document.getElementById('products-grid');
         let activeProduct = null;
         let currentImageIndex = 0;
         let currentCategory = 'all'; 
+        let searchQuery = '';
 
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
@@ -599,7 +557,7 @@
                 document.documentElement.classList.remove('dark');
             }
             if(typeof currentCategory !== 'undefined') {
-                filterProducts(currentCategory);
+                applyFilters();
             }
         }
 
@@ -630,15 +588,85 @@
             window.open(url, '_blank');
         }
 
+        function handleSearch() {
+            const input = document.getElementById('search-input');
+            const clearBtn = document.getElementById('clear-search');
+            searchQuery = input.value.trim().toLowerCase();
+            
+            if (searchQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            applyFilters();
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('search-input');
+            const clearBtn = document.getElementById('clear-search');
+            input.value = '';
+            searchQuery = '';
+            clearBtn.classList.add('hidden');
+            applyFilters();
+        }
+
+        function filterProducts(category) {
+            currentCategory = category;
+            
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-[#1E1E1E]', 'text-white', 'dark:bg-[#B38F4F]', 'border-transparent');
+                btn.classList.add('bg-transparent', 'text-gray-700', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700');
+            });
+
+            const activeBtn = document.getElementById(`btn-${category}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-transparent', 'text-gray-700', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-700');
+                activeBtn.classList.add('bg-[#1E1E1E]', 'text-white', 'dark:bg-[#B38F4F]', 'border-transparent');
+            }
+
+            applyFilters();
+        }
+
+        function applyFilters() {
+            let filtered = products;
+
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            if (searchQuery !== '') {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(searchQuery) || 
+                    p.code.toLowerCase().includes(searchQuery) ||
+                    p.tagName.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            displayProducts(filtered);
+        }
+
         function displayProducts(productsList) {
             grid.innerHTML = "";
             if(productsList.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-gray-400 dark:text-gray-500 py-12 text-sm">قريباً.. جاري رفع موديلات هذا القسم</p>`;
+                grid.innerHTML = `<p class="col-span-full text-center text-gray-400 dark:text-gray-500 py-12 text-sm">عذراً، لم نجد نتائج تطابق بحثك</p>`;
                 return;
             }
             
             productsList.forEach(product => {
-                // التحقق من وجود فيديو للمنتج لإضافة أيقونة تشغيل الفيديو على الكارت
+                const isAvailable = product.inStock !== false;
+
+                const stockBadge = isAvailable ? `
+                    <span class="inline-flex items-center gap-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 dark:bg-emerald-500/20 px-2 py-0.5 rounded-full text-[10px] md:text-xs font-bold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        متوفر
+                    </span>
+                ` : `
+                    <span class="inline-flex items-center gap-1 bg-red-500/10 text-red-600 dark:text-red-400 dark:bg-red-500/20 px-2 py-0.5 rounded-full text-[10px] md:text-xs font-bold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                        غير متوفر
+                    </span>
+                `;
+
                 const videoButton = product.video ? `
                     <button onclick="openCardVideo(event, '${product.video}')" class="absolute top-2.5 left-2.5 bg-red-600/90 hover:bg-red-600 text-white p-2 rounded-full shadow-md z-10 transition-all transform hover:scale-110 flex items-center justify-center" title="تشغيل الفيديو">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -653,19 +681,25 @@
                             ${videoButton}
                             <div onclick="openModal(${product.id})" class="absolute inset-0 cursor-pointer">
                                 <img src="${product.image}" alt="${product.name}" class="w-full h-full object-contain p-2 md:p-3 group-hover:scale-105 transition-transform duration-500">
-                                <span class="absolute bottom-1.5 right-1.5 bg-black/70 text-white text-[9px] md:text-[10px] font-mono px-1.5 py-0.5 rounded font-bold">${product.code}</span>
-                                <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hidden md:flex">
-                                    <span class="bg-white/90 dark:bg-[#2d2d2d] dark:text-white text-xs font-bold px-3 py-1.5 rounded-lg text-gray-800 shadow-sm">معاينة الصور</span>
-                                </div>
+                                <span class="absolute bottom-1.5 right-1.5 bg-black/70 text-white text-[9px] md:text-[10px] font-mono px-1.5 py-0.5 rounded">
+                                    ${product.code}
+                                </span>
                             </div>
                         </div>
-                        <div class="p-3 md:p-4 flex-grow flex flex-col justify-between">
-                            <div onclick="openModal(${product.id})" class="cursor-pointer">
-                                <h3 class="font-bold text-xs md:text-base text-[#1E1E1E] dark:text-white group-hover:text-[#B38F4F] transition-colors mb-0.5 line-clamp-1">${product.name}</h3>
-                                <p class="text-[10px] md:text-[11px] text-gray-400 dark:text-gray-500 mb-2 md:mb-3">اضغط للتصفح والتفاصيل</p>
+
+                        <div class="p-3 md:p-4 flex flex-col justify-between flex-grow">
+                            <div>
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-[10px] md:text-xs text-[#B38F4F] font-bold">${product.tagName}</span>
+                                    ${stockBadge}
+                                </div>
+                                <h3 onclick="openModal(${product.id})" class="font-bold text-xs md:text-base text-[#1E1E1E] dark:text-white line-clamp-1 cursor-pointer hover:text-[#B38F4F] transition-colors mb-2">
+                                    ${product.name}
+                                </h3>
                             </div>
-                            <button onclick="sendWhatsAppProduct('${product.name}', '${product.code}')" class="w-full py-2 bg-[#1E1E1E] hover:bg-[#B38F4F] dark:bg-[#B38F4F] dark:hover:bg-[#A67C3D] text-white rounded-xl font-bold text-[11px] md:text-xs transition-colors flex items-center justify-center gap-1">
-                                <span>استفسر عن السعر</span>
+
+                            <button onclick="openModal(${product.id})" class="w-full mt-2 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-[#2A2A2A] dark:hover:bg-[#333333] text-gray-800 dark:text-white rounded-lg font-bold text-xs transition-colors">
+                                التفاصيل والصور
                             </button>
                         </div>
                     </div>
@@ -674,75 +708,82 @@
             });
         }
 
-        function filterProducts(category) {
-            currentCategory = category;
-            const buttons = document.querySelectorAll('.category-btn');
-            buttons.forEach(btn => {
-                btn.classList.remove('bg-[#B38F4F]', 'text-white', 'border-transparent');
-                btn.classList.add('bg-transparent', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-gray-700');
-            });
+        function openModal(id) {
+            activeProduct = products.find(p => p.id === id);
+            if (!activeProduct) return;
 
-            const activeBtn = document.getElementById(`btn-${category}`);
-            if(activeBtn) {
-                activeBtn.classList.add('bg-[#B38F4F]', 'text-white', 'border-transparent');
-                activeBtn.classList.remove('bg-transparent', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-gray-700');
-            }
-
-            if(category === 'all') {
-                displayProducts(products);
-            } else {
-                const filtered = products.filter(p => p.category === category);
-                displayProducts(filtered);
-            }
-        }
-
-        function openModal(productId) {
-            const product = products.find(p => p.id === productId);
-            if(!product) return;
-
-            activeProduct = product;
             currentImageIndex = 0;
+            const isAvailable = activeProduct.inStock !== false;
 
-            document.getElementById('modal-title').innerText = product.name;
-            document.getElementById('modal-desc').innerText = product.desc;
-            document.getElementById('modal-tag').innerText = product.tagName;
-            document.getElementById('modal-code').innerText = `كود: ${product.code}`;
-            
-            // التحكم في ظهور زر الفيديو داخل المودال
-            const modalVideoBtn = document.getElementById('modal-video-btn');
-            if (product.video) {
-                modalVideoBtn.classList.remove('hidden');
+            document.getElementById('modal-title').innerText = activeProduct.name;
+            document.getElementById('modal-code').innerText = activeProduct.code;
+            document.getElementById('modal-tag').innerText = activeProduct.tagName;
+            document.getElementById('modal-desc').innerText = activeProduct.desc || "تصميم فاخر وعالي الجودة مخصص لتجارة الجملة مع خامات مقاومة للاستخدام الشاق.";
+
+            const stockStatusContainer = document.getElementById('modal-stock-status');
+            const whatsappBtn = document.getElementById('modal-whatsapp-btn');
+            const btnText = document.getElementById('modal-btn-text');
+
+            if (isAvailable) {
+                stockStatusContainer.innerHTML = `
+                    <span class="inline-flex items-center gap-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 dark:bg-emerald-500/20 px-2.5 py-0.5 rounded-full text-xs font-bold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        متوفر
+                    </span>
+                `;
+                whatsappBtn.disabled = false;
+                whatsappBtn.className = "w-full py-3.5 md:py-4 bg-[#1E1E1E] hover:bg-[#B38F4F] dark:bg-[#B38F4F] dark:hover:bg-[#A67C3D] text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2 md:gap-3 shadow-md cursor-pointer";
+                btnText.innerText = "استفسر عن السعر عبر الواتساب";
+                whatsappBtn.onclick = () => sendWhatsAppProduct(activeProduct.name, activeProduct.code);
             } else {
-                modalVideoBtn.classList.add('hidden');
+                stockStatusContainer.innerHTML = `
+                    <span class="inline-flex items-center gap-1 bg-red-500/10 text-red-600 dark:text-red-400 dark:bg-red-500/20 px-2.5 py-0.5 rounded-full text-xs font-bold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                        غير متوفر
+                    </span>
+                `;
+                whatsappBtn.disabled = true;
+                whatsappBtn.className = "w-full py-3.5 md:py-4 bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-xl font-bold flex items-center justify-center gap-2 md:gap-3 shadow-none cursor-not-allowed";
+                btnText.innerText = "غير متوفر حالياً";
+                whatsappBtn.onclick = null;
             }
 
-            updateModalImage();
-            renderThumbnails();
+            const allImages = [activeProduct.image, ...(activeProduct.images || [])];
+            updateModalImage(allImages);
 
-            document.getElementById('modal-whatsapp-btn').onclick = () => {
-                sendWhatsAppProduct(product.name, product.code);
-            };
+            const videoBtn = document.getElementById('modal-video-btn');
+            if (activeProduct.video) {
+                videoBtn.classList.remove('hidden');
+            } else {
+                videoBtn.classList.add('hidden');
+            }
+
+            const thumbnailsContainer = document.getElementById('modal-thumbnails');
+            thumbnailsContainer.innerHTML = "";
+            
+            allImages.forEach((imgSrc, idx) => {
+                const thumb = document.createElement('img');
+                thumb.src = imgSrc;
+                thumb.alt = activeProduct.name;
+                thumb.className = `w-14 h-14 md:w-16 md:h-16 object-contain rounded-lg bg-white dark:bg-[#1a1a1a] p-1 border-2 cursor-pointer transition-all flex-shrink-0 ${idx === 0 ? 'border-[#B38F4F]' : 'border-transparent hover:border-gray-300'}`;
+                thumb.onclick = () => {
+                    currentImageIndex = idx;
+                    updateModalImage(allImages);
+                };
+                thumbnailsContainer.appendChild(thumb);
+            });
 
             document.getElementById('product-modal').classList.remove('hidden');
             document.body.classList.add('overflow-hidden');
         }
 
-        function closeModal() {
-            document.getElementById('product-modal').classList.add('hidden');
-            if (!document.getElementById('mobile-menu').classList.contains('translate-x-full')) {
-                return;
-            }
-            document.body.classList.remove('overflow-hidden');
-        }
+        function updateModalImage(imagesArray) {
+            const mainImg = document.getElementById('modal-main-img');
+            mainImg.src = imagesArray[currentImageIndex];
 
-        function updateModalImage() {
-            if (!activeProduct) return;
-            const images = [activeProduct.image, ...activeProduct.images];
-            document.getElementById('modal-main-img').src = images[currentImageIndex];
-            
-            const thumbs = document.querySelectorAll('.thumb-btn');
-            thumbs.forEach((thumb, idx) => {
-                if(idx === currentImageIndex) {
+            const thumbnails = document.getElementById('modal-thumbnails').children;
+            Array.from(thumbnails).forEach((thumb, idx) => {
+                if (idx === currentImageIndex) {
                     thumb.classList.add('border-[#B38F4F]');
                     thumb.classList.remove('border-transparent');
                 } else {
@@ -752,86 +793,57 @@
             });
         }
 
-        function nextImage() {
-            if (!activeProduct) return;
-            const total = 1 + activeProduct.images.length;
-            currentImageIndex = (currentImageIndex + 1) % total;
-            updateModalImage();
-        }
-
         function prevImage() {
             if (!activeProduct) return;
-            const total = 1 + activeProduct.images.length;
-            currentImageIndex = (currentImageIndex - 1 + total) % total;
-            updateModalImage();
+            const allImages = [activeProduct.image, ...(activeProduct.images || [])];
+            currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
+            updateModalImage(allImages);
         }
 
-        function renderThumbnails() {
-            const container = document.getElementById('modal-thumbnails');
-            container.innerHTML = "";
+        function nextImage() {
             if (!activeProduct) return;
-
-            const allImages = [activeProduct.image, ...activeProduct.images];
-            allImages.forEach((imgSrc, idx) => {
-                const btn = document.createElement('button');
-                btn.className = `thumb-btn w-16 h-16 rounded-xl border-2 transition-all p-1 bg-white dark:bg-[#1a1a1a] flex-shrink-0 border-transparent`;
-                btn.onclick = () => {
-                    currentImageIndex = idx;
-                    updateModalImage();
-                };
-                btn.innerHTML = `<img src="${imgSrc}" class="w-full h-full object-contain">`;
-                container.appendChild(btn);
-            });
-            if(container.children[0]) container.children[0].classList.add('border-[#B38F4F]');
+            const allImages = [activeProduct.image, ...(activeProduct.images || [])];
+            currentImageIndex = (currentImageIndex + 1) % allImages.length;
+            updateModalImage(allImages);
         }
 
-        // دالة فتح فيديو من داخل كارت المنتج مباشرة
-        function openCardVideo(event, videoSrc) {
-            event.stopPropagation(); // منع فتح المودال العادي للصور عند الضغط على زر الفيديو
-            const videoModal = document.getElementById('video-modal');
-            const videoElement = document.getElementById('preview-video');
-            const videoSource = document.getElementById('video-source');
-
-            videoSource.src = videoSrc;
-            videoElement.load();
-            videoModal.classList.remove('hidden');
-            videoElement.play();
-            document.body.classList.add('overflow-hidden');
+        function closeModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
         }
 
-        // دالة فتح فيديو من داخل مودال تفاصيل المنتج
-        function openVideoModal(event) {
-            if (event) event.stopPropagation();
+        function openVideoModal(e) {
+            if (e) e.stopPropagation();
             if (!activeProduct || !activeProduct.video) return;
             
             const videoModal = document.getElementById('video-modal');
-            const videoElement = document.getElementById('preview-video');
             const videoSource = document.getElementById('video-source');
+            const previewVideo = document.getElementById('preview-video');
 
             videoSource.src = activeProduct.video;
-            videoElement.load();
+            previewVideo.load();
             videoModal.classList.remove('hidden');
-            videoElement.play();
         }
 
-        // دالة إغلاق مودال الفيديو
+        function openCardVideo(e, videoUrl) {
+            e.stopPropagation();
+            const videoModal = document.getElementById('video-modal');
+            const videoSource = document.getElementById('video-source');
+            const previewVideo = document.getElementById('preview-video');
+
+            videoSource.src = videoUrl;
+            previewVideo.load();
+            videoModal.classList.remove('hidden');
+        }
+
         function closeVideoModal() {
             const videoModal = document.getElementById('video-modal');
-            const videoElement = document.getElementById('preview-video');
-            
-            videoElement.pause();
+            const previewVideo = document.getElementById('preview-video');
+            previewVideo.pause();
             videoModal.classList.add('hidden');
-            
-            // إذا كان مودال المنتجات مغلقاً، نقوم بإرجاع السكرول الخاص بالصفحة للوضع الطبيعي
-            if (document.getElementById('product-modal').classList.contains('hidden')) {
-                document.body.classList.remove('overflow-hidden');
-            }
         }
 
-        // التشغيل الأولي للكتالوج عند تحميل الصفحة
-        document.addEventListener("DOMContentLoaded", () => {
-            filterProducts('all');
-        });
+        filterProducts('all');
     </script>
 </body>
 </html>
